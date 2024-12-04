@@ -5,6 +5,7 @@ import SearchBar from '@/components/SearchBar'
 import GameResult from '@/components/GameResult'
 import { Clock, HardDrive, SortAsc, SortDesc } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import type { GameData } from '../lib/searchGames'
 
 type SortType = 'date' | 'size'
 type SortDirection = 'asc' | 'desc'
@@ -12,9 +13,9 @@ type SortDirection = 'asc' | 'desc'
 export default function SearchPage({
   searchParams
 }: {
-  searchParams: { q: string }
+  searchParams: { q?: string }
 }) {
-  const [results, setResults] = useState<any[]>([])
+  const [results, setResults] = useState<GameData[]>([])
   const [sortBy, setSortBy] = useState<SortType>('date')
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
   const query = searchParams.q
