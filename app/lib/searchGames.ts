@@ -1,6 +1,17 @@
 import { jsonSources } from '../config/sources'
 import { getGameImage } from './steamUtils'
 
+export interface GameData {
+  name: string
+  image?: string
+  sources: { 
+    name: string
+    url: string
+    fileSize?: string
+    uploadDate?: string
+  }[]
+}
+
 interface Download {
   title: string
   uris: string[]
@@ -11,17 +22,6 @@ interface Download {
 interface SourceData {
   name: string
   downloads: Download[]
-}
-
-interface GameData {
-  name: string
-  image?: string
-  sources: { 
-    name: string
-    url: string
-    fileSize?: string
-    uploadDate?: string
-  }[]
 }
 
 interface ConsolidatedGame {
