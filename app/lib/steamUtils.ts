@@ -13,14 +13,30 @@ const KNOWN_GAME_IDS: { [key: string]: string } = {
 
 const IGDB_ENDPOINT = 'https://api.igdb.com/v4/games';
 
-export async function getGameImage(gameName: string): Promise<string | null> {
+export async function getGameImage(gameName: string): Promise<string | undefined> {
   try {
-    const response = await fetch(`/api/game-image?title=${encodeURIComponent(gameName)}`)
-    const data = await response.json()
-    return data.imageUrl
+    const cleanName = gameName
+      .replace(/\[.*?\]/g, '')
+      .replace(/\(.*?\)/g, '')
+      .replace(/v\d+(\.\d+)*/, '')
+      .replace(/\./g, ' ')
+      .replace(/-/g, ' ')
+      .replace(/:/g, '')
+      .replace(/ultimate edition|deluxe edition|gold edition|repack|crackfix/gi, '')
+      .trim();
+
+    const params = new URLSearchParams({ title: cleanName });
+    const response = await fetch(`/api/game-image?${params}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.imageUrl || undefined;
   } catch (error) {
-    console.error('Error fetching game image:', error)
-    return null
+    console.error('Error fetching game image:', error);
+    return undefined;
   }
 }
 
