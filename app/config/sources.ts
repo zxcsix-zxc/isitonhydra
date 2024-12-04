@@ -42,6 +42,10 @@ export const jsonSources = [
   {
     name: 'HydraSources(Russian)',
     url: 'https://hydrasources.su/hydra.json'
+  },
+  {
+    name: 'SteamRip(Direct download)',
+    url: 'https://hydralinks.cloud/sources/steamrip.json'
   }
   // Add more sources as needed
 ]
