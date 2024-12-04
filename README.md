@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Is it on Hydra?
 
-## Getting Started
+<div align="center">
+  <img src="public/preview.png" alt="Is it on Hydra Preview" width="600">
+  
+  A modern game search engine built with Next.js 14 that aggregates game downloads from multiple sources.
+  
+  [Live Demo](https://isitonhydra.vercel.app) | [Join Discord](https://discord.gg/hydralaunchercommunity)
+</div>
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Lightning Fast Search**: Instantly search across multiple game sources
+- **Smart Filtering**: Sort results by date or file size
+- **Responsive Design**: Optimized for both desktop and mobile devices
+- **Real-time Updates**: Always up-to-date with the latest game releases
+- **Clean UI**: Modern, minimalist interface with a focus on usability
+- **Source Integration**: Aggregates data from multiple trusted sources
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: [Next.js 14](https://nextjs.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Icons**: [Lucide Icons](https://lucide.dev/)
+- **Deployment**: [Vercel](https://vercel.com)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💻 Getting Started
 
-## Learn More
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/isitonhydra.git
+   cd isitonhydra
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Run the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Open [http://localhost:3000](http://localhost:3000) in your browser**
 
-## Deploy on Vercel
+## 🤝 Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👏 Acknowledgments
+
+- Thanks to all the contributors who have helped with the project
+- Special thanks to the Hydra Launcher community
+- Icon and design inspiration from various sources
+
+## 📬 Contact
+
+- GitHub: [@zxcsix-zxc](https://github.com/zxcsix-zxc)
+- Discord: [Join our community](https://discord.gg/hydralaunchercommunity)
+
+---
+
+<div align="center">
+  Made with ❤️ by Moyase
+</div>

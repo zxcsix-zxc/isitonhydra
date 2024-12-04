@@ -1,6 +1,8 @@
 'use client'
 
 import Image from 'next/image'
+import { useState } from 'react'
+import { jsonSources } from '@/app/config/sources'
 
 interface GameResultProps {
   name: string
@@ -14,8 +16,15 @@ interface GameResultProps {
 }
 
 export default function GameResult({ name, image, sources }: GameResultProps) {
-  const handleCopyUrl = (url: string) => {
-    navigator.clipboard.writeText(url)
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
+
+  const handleCopyUrl = (sourceName: string, index: number) => {
+    const sourceConfig = jsonSources.find(s => s.name.toLowerCase() === sourceName.toLowerCase())
+    if (sourceConfig) {
+      navigator.clipboard.writeText(sourceConfig.url)
+      setCopiedIndex(index)
+      setTimeout(() => setCopiedIndex(null), 2000)
+    }
   }
 
   const formatDate = (dateString: string) => {
@@ -28,10 +37,10 @@ export default function GameResult({ name, image, sources }: GameResultProps) {
   }
 
   return (
-    <div className="bg-purple-600/30 backdrop-blur-sm rounded-3xl shadow-lg hover:bg-purple-600/40 transition-all duration-200 p-6">
-      <div className="flex gap-6">
+    <div className="bg-purple-600/30 backdrop-blur-sm rounded-3xl shadow-lg hover:bg-purple-600/40 transition-all duration-200 overflow-hidden">
+      <div className="flex flex-col sm:flex-row">
         {image && (
-          <div className="w-40 h-24 relative flex-shrink-0 rounded-lg overflow-hidden">
+          <div className="w-full sm:w-80 h-48 sm:h-44 relative flex-shrink-0">
             <Image
               src={image}
               alt={name}
@@ -40,16 +49,23 @@ export default function GameResult({ name, image, sources }: GameResultProps) {
             />
           </div>
         )}
-        <div className="flex flex-col gap-3">
-          <h2 className="text-2xl font-bold text-white">{name}</h2>
-          <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col gap-3 p-4 sm:p-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">{name}</h2>
+          <div className="flex flex-col gap-2">
             {sources.map((source, index) => (
               <button 
                 key={index}
-                onClick={() => handleCopyUrl(source.url)}
-                className="flex items-center gap-2 text-white/90 hover:text-white"
+                onClick={() => handleCopyUrl(source.name, index)}
+                className="flex flex-wrap items-center gap-2 text-white/90 hover:text-white w-fit group relative text-sm sm:text-base"
               >
-                <span>{source.name}</span>
+                <span className="relative">
+                  {source.name}
+                  {copiedIndex === index && (
+                    <span className="absolute left-1/2 -translate-x-1/2 -top-6 px-2 py-1 bg-green-500 text-xs rounded text-white whitespace-nowrap">
+                      Copied!
+                    </span>
+                  )}
+                </span>
                 {source.fileSize && (
                   <>
                     <span className="text-white/60">•</span>

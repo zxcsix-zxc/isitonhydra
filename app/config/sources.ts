@@ -1,10 +1,10 @@
 export const jsonSources = [
   {
-    name: 'empress',
+    name: 'Empress',
     url: 'https://hydralinks.cloud/sources/empress.json'
   },
   {
-    name: 'fitgirl',
+    name: 'FitGirl',
     url: 'https://hydralinks.cloud/sources/fitgirl.json'
   },
   {
@@ -30,6 +30,18 @@ export const jsonSources = [
   {
     name: 'Xatab',
     url: 'https://hydralinks.cloud/sources/xatab.json'
+  },
+  {
+    name: 'RuTracker(Kekitu)',
+    url: 'https://raw.githubusercontent.com/KekitU/rutracker-hydra-links/refs/heads/main/all_categories.json'
+  },
+  {
+    name: 'DavidKazumi',
+    url: 'https://davidkazumi.github.io/fontekazumi.json'
+  },
+  {
+    name: 'HydraSources(Russian)',
+    url: 'https://hydrasources.su/hydra.json'
   }
   // Add more sources as needed
 ]

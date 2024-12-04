@@ -64,6 +64,14 @@ function cleanGameTitle(title: string): string {
     .trim();
 }
 
+function cleanGameName(name: string): string {
+  return name
+    .replace(/free download/gi, '')
+    .replace(/v\d+\.\d+(\.\d+)?/gi, '') // Removes version numbers like v1.0, v1.4.5
+    .replace(/\s+/g, ' ') // Remove extra spaces
+    .trim()
+}
+
 export async function searchGames(query: string): Promise<GameData[]> {
   const consolidatedGames = new Map<string, ConsolidatedGame>();
 
@@ -119,7 +127,7 @@ export async function searchGames(query: string): Promise<GameData[]> {
   }
 
   return Array.from(consolidatedGames.values()).map(game => ({
-    name: game.cleanName,
+    name: cleanGameName(game.cleanName),
     image: game.image,
     sources: game.sources
   }));
