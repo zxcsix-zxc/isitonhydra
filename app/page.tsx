@@ -1,14 +1,15 @@
 'use client'
 
 import SearchBar from '@/components/SearchBar'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
-  const [query, setQuery] = useState('')
+  const router = useRouter()
 
   const handleSearch = (searchQuery: string) => {
-    setQuery(searchQuery)
-    // Add any additional search logic here
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
+    }
   }
 
   return (

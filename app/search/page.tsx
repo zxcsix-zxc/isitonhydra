@@ -3,78 +3,123 @@
 import { searchGames } from '../lib/searchGames'
 import SearchBar from '@/components/SearchBar'
 import GameResult from '@/components/GameResult'
-import { Clock, HardDrive, SortAsc, SortDesc } from 'lucide-react'
+import { ArrowLeft, Calendar, HardDrive } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import type { GameData } from '../lib/searchGames'
+import Link from 'next/link'
 
 type SortType = 'date' | 'size'
-type SortDirection = 'asc' | 'desc'
 
 export default function SearchPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [results, setResults] = useState<GameData[]>([])
-  const [query, setQuery] = useState<string>('')
-  const [sortType, setSortType] = useState<SortType>('date')
-  const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
+  const [isLoading, setIsLoading] = useState(false)
+  const [sortBy, setSortBy] = useState<SortType>('date')
+  const [sortedResults, setSortedResults] = useState<GameData[]>([])
+  
+  useEffect(() => {
+    const query = searchParams.get('q')
+    if (query) {
+      setIsLoading(true)
+      searchGames(query)
+        .then(setResults)
+        .finally(() => setIsLoading(false))
+    }
+  }, [searchParams])
 
   useEffect(() => {
-    const fetchResults = async () => {
-      if (query.trim()) {
-        const data = await searchGames(query)
-        setResults(data)
+    const sorted = [...results].sort((a, b) => {
+      if (sortBy === 'date') {
+        const dateA = a.sources[0]?.uploadDate ? new Date(a.sources[0].uploadDate).getTime() : 0
+        const dateB = b.sources[0]?.uploadDate ? new Date(b.sources[0].uploadDate).getTime() : 0
+        return dateB - dateA
+      } else {
+        const sizeA = parseFloat(a.sources[0]?.fileSize?.replace(' GB', '') || '0')
+        const sizeB = parseFloat(b.sources[0]?.fileSize?.replace(' GB', '') || '0')
+        return sizeB - sizeA
       }
-    }
+    })
+    setSortedResults(sorted)
+  }, [results, sortBy])
 
-    if (query) {
-      fetchResults()
-    }
-  }, [query])
-
-  const toggleSort = (type: SortType) => {
-    if (sortType === type) {
-      setSortDirection(prev => prev === 'desc' ? 'asc' : 'desc')
-    } else {
-      setSortType(type)
-      setSortDirection('desc')
+  const handleSearch = (query: string) => {
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query)}`)
     }
   }
-
-  const parseFileSize = (size?: string): number => {
-    if (!size) return 0
-    const match = size.match(/^([\d.]+)\s*(MB|GB)$/i)
-    if (!match) return 0
-    const [, value, unit] = match
-    return unit.toUpperCase() === 'GB' ? parseFloat(value) * 1024 : parseFloat(value)
-  }
-
-  const sortedResults = [...results].sort((a, b) => {
-    const getMaxValue = (game: any, getValue: (source: any) => number) => {
-      return Math.max(...game.sources.map(getValue))
-    }
-
-    if (sortType === 'date') {
-      const dateA = getMaxValue(a, (source) => new Date(source.uploadDate || 0).getTime())
-      const dateB = getMaxValue(b, (source) => new Date(source.uploadDate || 0).getTime())
-      return sortDirection === 'desc' ? dateB - dateA : dateA - dateB
-    } else {
-      const sizeA = getMaxValue(a, (source) => parseFileSize(source.fileSize))
-      const sizeB = getMaxValue(b, (source) => parseFileSize(source.fileSize))
-      return sortDirection === 'desc' ? sizeB - sizeA : sizeA - sizeB
-    }
-  })
 
   return (
-    <main className="container mx-auto p-4">
-      <SearchBar onSearch={setQuery} />
-      {sortedResults.length > 0 ? (
-        <div className="space-y-8">
-          {sortedResults.map((game, index) => (
-            <GameResult key={index} game={game} />
-          ))}
+    <div className="min-h-screen bg-zinc-900">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="flex flex-col items-center gap-6 mb-8">
+          <div className="flex items-center gap-4 w-full max-w-2xl">
+            <Link 
+              href="/"
+              className="p-2 rounded-full hover:bg-white/10 transition-colors"
+            >
+              <ArrowLeft className="w-6 h-6 text-white" />
+            </Link>
+            <SearchBar onSearch={handleSearch} />
+          </div>
+
+          {results.length > 0 && (
+            <div className="flex gap-4">
+              <button
+                onClick={() => setSortBy('date')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
+                  sortBy === 'date' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-white/10 text-white/70 hover:bg-white/20'
+                }`}
+              >
+                <Calendar size={16} />
+                Date
+              </button>
+              <button
+                onClick={() => setSortBy('size')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
+                  sortBy === 'size' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-white/10 text-white/70 hover:bg-white/20'
+                }`}
+              >
+                <HardDrive size={16} />
+                Size
+              </button>
+            </div>
+          )}
         </div>
-      ) : (
-        query && <p className="text-center text-xl text-white">No results found for &quot;{query}&quot;. The game is not available right now.</p>
-      )}
-    </main>
+
+        {/* Results */}
+        <div className="max-w-4xl mx-auto space-y-6">
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-white text-lg">Searching...</p>
+            </div>
+          ) : sortedResults.length > 0 ? (
+            <>
+              <h2 className="text-white text-xl mb-6">
+                Found {sortedResults.length} result{sortedResults.length !== 1 ? 's' : ''}
+                {searchParams.get('q') && ` for "${searchParams.get('q')}"`}
+              </h2>
+              {sortedResults.map((game, index) => (
+                <GameResult key={index} {...game} />
+              ))}
+            </>
+          ) : searchParams.get('q') ? (
+            <div className="text-center py-12">
+              <p className="text-white text-lg">
+                No results found for "{searchParams.get('q')}"
+              </p>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
   )
 }
 

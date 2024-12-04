@@ -1,9 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { Clock, HardDrive, Link } from 'lucide-react'
 
-interface GameResult {
+interface GameResultProps {
   name: string
   image?: string
   sources: { 
@@ -14,81 +13,56 @@ interface GameResult {
   }[]
 }
 
-export default function GameResult({ game }: { game: GameResult }) {
-  const shortTitle = game.name.split(/[-–([\]]|\sv\d/)[0].trim()
-
+export default function GameResult({ name, image, sources }: GameResultProps) {
   const handleCopyUrl = (url: string) => {
     navigator.clipboard.writeText(url)
-      .then(() => {
-        alert('URL copied to clipboard!')
-      })
-      .catch((err) => {
-        console.error('Failed to copy URL:', err)
-      })
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric'
+    }).replace(/\//g, '/')
   }
 
   return (
-    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
-      <div className="flex flex-col lg:flex-row">
-        <div className="lg:w-[400px] relative group">
-          {game.image ? (
-            <div className="relative h-[250px] lg:h-full">
-              <Image
-                src={game.image}
-                alt={shortTitle}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                unoptimized
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-          ) : (
-            <div className="w-full h-[250px] lg:h-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
-              <span className="text-purple-400 font-medium">No image available</span>
-            </div>
-          )}
-        </div>
-
-        <div className="flex-grow p-6">
-          <div className="space-y-2">
-            <h2 className="text-xl font-bold text-gray-800 hover:text-purple-600 transition-colors duration-200">
-              {shortTitle}
-            </h2>
-            <p className="text-sm text-gray-600 break-words">
-              {game.name !== shortTitle && game.name}
-            </p>
+    <div className="bg-purple-600/30 backdrop-blur-sm rounded-3xl shadow-lg hover:bg-purple-600/40 transition-all duration-200 p-6">
+      <div className="flex gap-6">
+        {image && (
+          <div className="w-40 h-24 relative flex-shrink-0 rounded-lg overflow-hidden">
+            <Image
+              src={image}
+              alt={name}
+              fill
+              className="object-cover"
+            />
           </div>
-
-          <div className="mt-4 space-y-4">
-            {game.sources.map((source, index) => (
-              <div 
-                key={index} 
-                className="bg-gray-50 rounded-lg p-4 hover:bg-purple-50 transition-colors duration-200"
+        )}
+        <div className="flex flex-col gap-3">
+          <h2 className="text-2xl font-bold text-white">{name}</h2>
+          <div className="flex flex-wrap gap-2">
+            {sources.map((source, index) => (
+              <button 
+                key={index}
+                onClick={() => handleCopyUrl(source.url)}
+                className="flex items-center gap-2 text-white/90 hover:text-white"
               >
-                <button
-                  onClick={() => handleCopyUrl(source.url)}
-                  className="flex items-center gap-2 text-purple-600 hover:text-purple-800 font-medium mb-2 transition-colors duration-200"
-                >
-                  <Link className="w-4 h-4" />
-                  {source.name}
-                </button>
-                
-                <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                  {source.fileSize && (
-                    <div className="flex items-center gap-1">
-                      <HardDrive className="w-4 h-4" />
-                      <span>{source.fileSize}</span>
-                    </div>
-                  )}
-                  {source.uploadDate && (
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{new Date(source.uploadDate).toLocaleDateString()}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
+                <span>{source.name}</span>
+                {source.fileSize && (
+                  <>
+                    <span className="text-white/60">•</span>
+                    <span>{source.fileSize}</span>
+                  </>
+                )}
+                {source.uploadDate && (
+                  <>
+                    <span className="text-white/60">•</span>
+                    <span>{formatDate(source.uploadDate)}</span>
+                  </>
+                )}
+              </button>
             ))}
           </div>
         </div>
