@@ -103,7 +103,7 @@ export default function SearchPage() {
           ) : sortedResults.length > 0 ? (
             <>
               <h2 className="text-white text-xl mb-6">
-                Found {sortedResults.length} result{sortedResults.length !== 1 ? 's' : ''}
+                Found {sortedResults.length} result{sortedResults.length !== 1 ? 's' : ''} 
                 {searchParams.get('q') && ` for "${searchParams.get('q')}"`}
               </h2>
               {sortedResults.map((game, index) => (
@@ -113,7 +113,7 @@ export default function SearchPage() {
           ) : searchParams.get('q') ? (
             <div className="text-center py-12">
               <p className="text-white text-lg">
-                No results found for "{searchParams.get('q')}"
+                No results found for &quot;{searchParams.get('q')}&quot;
               </p>
             </div>
           ) : null}
