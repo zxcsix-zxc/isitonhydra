@@ -53,7 +53,7 @@ function SearchContent() {
   return (
     <div className="container mx-auto px-4 min-h-screen flex flex-col">
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center pt-4 sm:pt-8">
+      <div className="flex-1 flex flex-col items-center pt-4 sm:pt-8 pb-24">
         {/* Header */}
         <div className="flex flex-col items-center gap-4 sm:gap-6 mb-8 sm:mb-12 w-full">
           <div className="flex items-center gap-4 w-full max-w-2xl">
@@ -123,7 +123,7 @@ function SearchContent() {
                 Found {sortedResults.length} result{sortedResults.length !== 1 ? 's' : ''} 
                 {searchParams.get('q') && (
                   <span className="text-zinc-400">
-                    {' '}for "<span className="text-purple-400">{searchParams.get('q')}</span>"
+                    {' '}for "{searchParams.get('q')}"
                   </span>
                 )}
               </h2>
@@ -138,33 +138,10 @@ function SearchContent() {
           ) : searchParams.get('q') ? (
             <div className="text-center py-12">
               <p className="text-zinc-400 text-lg">
-                No results found for &quot;{searchParams.get('q')}&quot;
+                No results found for '{searchParams.get('q')}'
               </p>
             </div>
           ) : null}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="w-full p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-4 sm:gap-6 text-zinc-500 bg-gradient-to-t from-zinc-900/80 to-transparent">
-        <p className="text-sm font-medium select-none">Created by Moyase</p>
-        <div className="flex items-center gap-4">
-          <a 
-            href="https://discord.gg/your-invite-link" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="hover:text-purple-400 transition-colors"
-          >
-            <MessageSquare className="w-5 h-5" />
-          </a>
-          <a 
-            href="https://github.com/your-username/your-repo" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="hover:text-purple-400 transition-colors"
-          >
-            <Github className="w-5 h-5" />
-          </a>
         </div>
       </div>
     </div>
@@ -175,7 +152,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900">
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10"></div>
-      <div className="relative">
+      <div className="relative min-h-screen">
         <Suspense fallback={
           <div className="container mx-auto px-4 py-8 text-center">
             <div className="w-16 h-16 border-4 border-zinc-700 border-t-purple-500 rounded-full animate-spin mx-auto mb-4" />
@@ -184,6 +161,29 @@ export default function SearchPage() {
         }>
           <SearchContent />
         </Suspense>
+
+        {/* Footer - fixed to bottom left */}
+        <div className="absolute bottom-0 left-0 p-4 sm:p-6 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 text-zinc-500">
+          <p className="text-sm font-medium select-none">Created by Moyase</p>
+          <div className="flex items-center gap-4">
+            <a 
+              href="https://discord.gg/hydralaunchercommunity" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-purple-400 transition-colors"
+            >
+              <MessageSquare className="w-5 h-5" />
+            </a>
+            <a 
+              href="https://github.com/zxcsix-zxc/isitonhydra" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-purple-400 transition-colors"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   )

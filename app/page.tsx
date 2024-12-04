@@ -61,8 +61,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Footer - removed fixed positioning */}
-        <div className="w-full p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between sm:justify-start gap-4 sm:gap-6 text-zinc-500 bg-gradient-to-t from-zinc-900/80 to-transparent">
+        {/* Footer - fixed to bottom left */}
+        <div className="absolute bottom-0 left-0 p-4 sm:p-6 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 text-zinc-500">
           <p className="text-sm font-medium select-none">Created by Moyase</p>
           <div className="flex items-center gap-4">
             <a 
