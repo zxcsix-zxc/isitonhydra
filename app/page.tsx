@@ -18,7 +18,7 @@ export default function Home() {
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10"></div>
       
       <div className="relative min-h-screen flex flex-col">
-        <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 md:p-24">
+        <div className="flex-1 flex flex-col items-center justify-center p-4 pb-28 sm:p-8 sm:pb-28 md:p-24 md:pb-28">
           <div className="text-center space-y-4 sm:space-y-6 max-w-3xl mb-8 sm:mb-12">
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
               Is it on Hydra?
@@ -62,7 +62,7 @@ export default function Home() {
           </div>
 
           {/* Quick Tip Box - moved below cards */}
-          <div className="w-full max-w-lg mx-auto mb-16">
+          <div className="w-full max-w-lg mx-auto">
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
               <div className="flex items-start gap-3 text-blue-400">
                 <div className="p-1">💡</div>
@@ -80,26 +80,28 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Footer - fixed to bottom left */}
-        <div className="absolute bottom-0 left-0 p-4 sm:p-6 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 text-zinc-500">
-          <p className="text-sm font-medium select-none">Created by Moyase</p>
-          <div className="flex items-center gap-4">
-            <a 
-              href="https://discord.gg/hydralaunchercommunity" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:text-purple-400 transition-colors"
-            >
-              <MessageSquare className="w-5 h-5" />
-            </a>
-            <a 
-              href="https://github.com/zxcsix-zxc/isitonhydra" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:text-purple-400 transition-colors"
-            >
-              <Github className="w-5 h-5" />
-            </a>
+        {/* Footer - now using fixed positioning */}
+        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-zinc-900 via-zinc-900/80 to-transparent pt-8">
+          <div className="p-4 sm:p-6 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 text-zinc-500">
+            <p className="text-sm font-medium select-none">Created by Moyase</p>
+            <div className="flex items-center gap-4">
+              <a 
+                href="https://discord.gg/hydralaunchercommunity" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-purple-400 transition-colors"
+              >
+                <MessageSquare className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://github.com/zxcsix-zxc/isitonhydra" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-purple-400 transition-colors"
+              >
+                <Github className="w-5 h-5" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
