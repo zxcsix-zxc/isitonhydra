@@ -5,7 +5,7 @@
   
   A modern game search engine built with Next.js 14 that aggregates game downloads from multiple sources.
   
-  [Live Demo](https://isitonhydra.vercel.app) | [Join Discord](https://discord.gg/hydralaunchercommunity)
+  [Live Demo](https://isitonhydra.xyz) | [Join Discord](https://discord.gg/hydralaunchercommunity)
 </div>
 
 ## 🌟 Features

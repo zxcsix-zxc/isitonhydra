@@ -30,19 +30,31 @@ function SearchContent() {
   }, [searchParams])
 
   useEffect(() => {
-    const sorted = [...results].sort((a, b) => {
+    const sorted = [...results].map(game => ({
+      ...game,
+      sources: [...game.sources].sort((a, b) => {
+        if (sortBy === 'date') {
+          return new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime();
+        } else {
+          const sizeA = parseFileSize(a.fileSize || '0 MB');
+          const sizeB = parseFileSize(b.fileSize || '0 MB');
+          return sizeB - sizeA;
+        }
+      })
+    })).sort((a, b) => {
       if (sortBy === 'date') {
-        const dateA = a.sources[0]?.uploadDate ? new Date(a.sources[0].uploadDate).getTime() : 0
-        const dateB = b.sources[0]?.uploadDate ? new Date(b.sources[0].uploadDate).getTime() : 0
-        return dateB - dateA
+        const dateA = Math.max(...a.sources.map(s => new Date(s.uploadDate || 0).getTime()));
+        const dateB = Math.max(...b.sources.map(s => new Date(s.uploadDate || 0).getTime()));
+        return dateB - dateA;
       } else {
-        const sizeA = parseFloat(a.sources[0]?.fileSize?.replace(' GB', '') || '0')
-        const sizeB = parseFloat(b.sources[0]?.fileSize?.replace(' GB', '') || '0')
-        return sizeB - sizeA
+        const sizeA = Math.max(...a.sources.map(s => parseFileSize(s.fileSize || '0 MB')));
+        const sizeB = Math.max(...b.sources.map(s => parseFileSize(s.fileSize || '0 MB')));
+        return sizeB - sizeA;
       }
-    })
-    setSortedResults(sorted)
-  }, [results, sortBy])
+    });
+
+    setSortedResults(sorted);
+  }, [results, sortBy]);
 
   const handleSearch = (query: string) => {
     if (query.trim()) {
